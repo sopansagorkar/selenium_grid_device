@@ -18,5 +18,9 @@ sleep 2
 
 
 echo '\n*****Starting Selenium device node...*****\n'
-NODE_DEVICE01=$(docker run -d --link $HUB_NAME:hub  selenium/node01)
+NODE_DEVICE01=$(docker run -d --link $HUB_NAME:hub  selenium/node)
 ip_NODE01=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $NODE_DEVICE01 )
+
+echo $NODE_DEVICE01
+
+echo $ip_NODE01
