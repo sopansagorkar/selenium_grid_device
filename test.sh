@@ -3,7 +3,7 @@ export baseURL=$2
 
 echo Building test container image
 
-docker pull www.cybage-docker-registry.com:9080/selenium_test
+#docker pull www.cybage-docker-registry.com:9080/selenium_test
 
 
 echo '\n\n*****Starting Selenium Hub Container...*****\n'
@@ -18,9 +18,11 @@ sleep 2
 
 
 echo '\n*****Starting Selenium device node...*****\n'
-NODE_DEVICE01=$(docker run -d --link $HUB_NAME:hub  selenium/node)
+NODE_DEVICE01=$(docker run -d --link $HUB_NAME:hub  sopansagorkar/appium-android:1.3)
 ip_NODE01=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $NODE_DEVICE01 )
 
 echo $NODE_DEVICE01
 
 echo $ip_NODE01
+
+echo 'hi sopan'
