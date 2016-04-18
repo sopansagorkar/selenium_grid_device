@@ -19,14 +19,14 @@ public class WebAndroid {
 		ConsoleRead consoleRead=new ConsoleRead();
 		capibilities.setCapability("automationName", "Appium");
 		capibilities.setBrowserName("note"); // use chrome for Chrome browser
-		capibilities.setCapability("deviceName", consoleRead.getDevice().get(0)); // update device name
-		capibilities.setCapability("platformVersion", "4.4.2"); // update
+		capibilities.setCapability("deviceName", "5554"); // update device name
+		//capibilities.setCapability("platformVersion", "4.4.2"); // update
 																// platform
 																// version
 		capibilities.setCapability("platformName", "ANDROID");
 		capibilities.setCapability("browserName", "Browser");
 
-		driver = new RemoteWebDriver(new URL("http://172.17.0.1:4444/wd/hub"),
+		driver = new RemoteWebDriver(new URL("http://172.17.0.4:4444/wd/hub"),
 				capibilities);
 		driver.get("http://www.google.com/");
 		driver.findElement(By.id("lst-ib")).sendKeys("Java");

@@ -1,0 +1,25 @@
+{
+"capabilities":
+     [
+       {
+          "deviceName": "device1",
+         "version":"4.4.2",
+         "maxInstances": 1,
+         "platformName":"ANDROID"
+       }
+     ],
+"configuration":
+{
+   "cleanUpCycle":2000,
+   "timeout":30000,
+   "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+   "url": "http://$(hostname -I):4723/wd/hub",
+   "host": "$(hostname -I)",
+   "port": 4723,
+   "maxSession": 6,
+   "register": true,
+   "registerCycle": 5000,
+   "hubPort": 4443,
+   "hubHost": "$HUBx"
+}
+}

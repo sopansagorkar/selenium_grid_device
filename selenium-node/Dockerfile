@@ -1,55 +1,51 @@
-FROM ubuntu:14.04
+FROM sopansagorkar/install_android
 
-MAINTAINER Sopan/Sneha
+MAINTAINER Sukhada Sankpal<sukhadas@cybage.com>
 
-RUN apt-get update 
+ENV ANDROID_EMULATOR_FORCE_32BIT true
 
-RUN apt-get install -y wget
+#--- Basic prerequisites for Android, NPM, Appium
 
-RUN apt-get install -y openjdk-7-jre-headless lib32z1 lib32ncurses5 lib32bz2-1.0 g++-multilib
+RUN dpkg-divert --local --rename --add /sbin/initctl
 
-RUN wget -qO- "http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz" | tar -zxv -C /opt/
+RUN ln -sf /bin/true /sbin/initctl
 
-RUN echo y | /opt/android-sdk-linux/tools/android update sdk --all --filter platform-tools,build-tools-20.0.0 --no-ui --force
+ENV DEBIAN_FRONTEND noninteractive
 
-ENV ANDROID_HOME /opt/android-sdk-linux
+RUN apt-get -y --force-yes update
 
-RUN apt-get install -y nodejs
+RUN apt-get install -y sudo openssh-server curl lsb-release
 
-RUN apt-get install -y npm
+RUN apt-get install -y nano
 
-COPY run.sh /opt/selenium/node01/run.sh
+WORKDIR /usr/local
 
-RUN chown -R 777 /opt/selenium/node01
+ENV PWD /usr/local
 
-RUN useradd -m -s /bin/bash automator -G sudo 
+ENV HOME /root
 
-RUN echo automator:password | chpasswd 
+RUN apt-get -y install libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgles2-mesa-dev 
 
-USER automator
+#--- Node installation
 
-RUN wget -qO- "http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz" | tar -zxv -C /home/automator
+RUN rm -rf node*
 
-RUN echo y | /home/automator/android-sdk-linux/tools/android update sdk --no-ui --all --filter platform-tools,build-tools-19.1.0,system-image,android-19,extra-android-support --force
+RUN sudo wget https://nodejs.org/download/release/v0.12.10/node-v0.12.10-linux-x64.tar.gz
 
-RUN sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
+RUN sudo tar -xvf node-v0.12.10-linux-x64.tar.gz
 
-RUN ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)"
+ENV PATH $PATH:$PWD/node-v0.12.10-linux-x64/bin
 
-RUN PATH $HOME/.linuxbrew/bin:$PATH
+ENV ANDROID_AVD_HOME /root/.android/avd
 
-RUN MANPATH $HOME/.linuxbrew/share/man:$MANPATH
+COPY ./Dockerfile /opt/
 
-RUN INFOPATH $HOME/.linuxbrew/share/info:$INFOPATH
+COPY ./nodeConfig.json /usr/local/
 
-RUN brew update
+ADD setpath.sh .
 
-RUN brew install node
+RUN chmod +x setpath.sh
 
-RUN brew link node
+RUN npm install -g -f appium
 
-RUN npm install -g appium
-
-RUN npm install wd
-
-CMD ["/bin/sh","-e","/opt/selenium/node01/run.sh"]
+CMD ["/bin/bash","./setpath.sh"]
