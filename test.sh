@@ -30,6 +30,7 @@ ip_NODE1=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $NODE1 )
 #NODE_FIREFOX=$(docker run -d --link $HUB_NAME:hub selenium/node-firefox$DEBUG:2.47.1)
 #ipFIREFOX_NODE=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $NODE_FIREFOX )
 
+sleep 10s
 echo '\n******Waiting for nodes to register and come online...******'
 sleep 3s
 
@@ -57,7 +58,7 @@ echo "***********************************************"
 
 
 echo $workspace
-docker run  -d --link $HUB_NAME:hub -v $workspace:/opt selenium/test
+docker run  -d --link $HUB_NAME:hub -e CONT=WebAndroid -v $workspace:/opt selenium/test
 
 STATUS=$?
   TEST_CONTAINER_firefox=$(docker ps -aq | head -1)
@@ -88,34 +89,6 @@ echo 'calling function test_node_chrome'
 
 
 
-#test_node_chrome
-# {
-# BROWSER=chrome
-#  echo Running $BROWSER test...
-
-
-
-#docker run -d --link $HUB_NAME:hub -v $workspace/selenium_grid/GridSelenium:/opt sopansagorkar/selenium-test
-
- # STATUS=$?
-   # TEST_CONTAINER_chrome=$(docker ps -aq | head -1)
-
-  #  if [ ! $STATUS = 0 ]; then
-     # echo Failed
-    #  echo '*****************'
-     # exit 1
-   # fi
-
-
-     # echo "\n\n**************logs of TEST_CONTAINER_CHROME**************"
-     # docker logs -f $TEST_CONTAINER_chrome | tee test_local_chrome.log
-     # echo "**********************************************************"
-
-      echo Removing the test container chrome
-      docker stop $TEST_CONTAINER_chrome
-      docker rm $TEST_CONTAINER_chrome
-
-    #      }
   echo "*******************************end of function Chrome*******************************************\n"
 
 

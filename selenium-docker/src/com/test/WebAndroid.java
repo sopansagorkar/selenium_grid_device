@@ -26,7 +26,7 @@ public class WebAndroid {
 		capibilities.setCapability("platformName", "ANDROID");
 		capibilities.setCapability("browserName", "Browser");
 
-		driver = new RemoteWebDriver(new URL("http://172.17.0.4:4444/wd/hub"),
+		driver = new RemoteWebDriver(new URL("http://172.17.0.2:4444/wd/hub"),
 				capibilities);
 		driver.get("http://www.google.com/");
 		driver.findElement(By.id("lst-ib")).sendKeys("Java");

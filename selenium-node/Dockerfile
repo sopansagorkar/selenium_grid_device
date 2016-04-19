@@ -18,6 +18,8 @@ RUN apt-get install -y sudo openssh-server curl lsb-release
 
 RUN apt-get install -y nano
 
+ENV TERM xterm
+
 WORKDIR /usr/local
 
 ENV PWD /usr/local

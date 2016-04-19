@@ -20,6 +20,6 @@
    "register": true,
    "registerCycle": 5000,
    "hubPort": 4443,
-   "hubHost": "$HUBx"
+   "hubHost": "$Hub"
 }
 }
